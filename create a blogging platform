@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Blog</title>
+  <style>
+    /* CSS */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+
+    header {
+      background: #333;
+      color: #fff;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    main {
+      padding: 1rem;
+    }
+
+    .blog {
+      border: 1px solid #ddd;
+      margin: 1rem 0;
+      padding: 1rem;
+      border-radius: 5px;
+    }
+
+    .comment {
+      background: #f9f9f9;
+      padding: 0.5rem;
+      margin: 0.5rem 0;
+      border-left: 2px solid #333;
+    }
+
+    form {
+      margin: 1rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    input, textarea, button {
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+
+    button {
+      background: #333;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #555;
+    }
+  </style>
+</head>
+<body>
+  <!-- HTML -->
+  <header>
+    <h1>Simple Blog</h1>
+  </header>
+
+  <main>
+    <!-- Form to Add Blog Posts -->
+    <section>
+      <h2>Create a Blog Post</h2>
+      <form id="blog-form">
+        <input type="text" id="title" placeholder="Blog Title" required>
+        <textarea id="content" placeholder="Blog Content" required></textarea>
+        <button type="submit">Add Blog</button>
+      </form>
+    </section>
+
+    <!-- Blog Posts -->
+    <section>
+      <h2>All Blog Posts</h2>
+      <div id="blog-container"></div>
+    </section>
+  </main>
+
+  <script>
+    // JavaScript
+    const blogForm = document.getElementById('blog-form');
+    const blogContainer = document.getElementById('blog-container');
+    let blogs = [];
+
+    // Add a new blog post
+    blogForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const title = document.getElementById('title').value;
+      const content = document.getElementById('content').value;
+
+      const newBlog = { title, content, comments: [] };
+      blogs.push(newBlog);
+      displayBlogs();
+      blogForm.reset();
+    });
+
+    // Display all blog posts
+    function displayBlogs() {
+      blogContainer.innerHTML = '';
+      blogs.forEach((blog, index) => {
+        const blogDiv = document.createElement('div');
+        blogDiv.classList.add('blog');
+        blogDiv.innerHTML = `
+          <h3>${blog.title}</h3>
+          <p>${blog.content}</p>
+          <button onclick="showCommentForm(${index})">Add Comment</button>
+          <div id="comments-${index}">
+            ${blog.comments.map(comment => <div class="comment">${comment}</div>).join('')}
+          </div>
+          <form id="comment-form-${index}" class="hidden" onsubmit="addComment(event, ${index})">
+            <input type="text" id="comment-input-${index}" placeholder="Write a comment" required>
+            <button type="submit">Post Comment</button>
+          </form>
+        `;
+        blogContainer.appendChild(blogDiv);
+      });
+    }
+
+    // Show comment form
+    function showCommentForm(index) {
+      document.getElementById(comment-form-${index}).classList.remove('hidden');
+    }
+
+    // Add a comment to a blog post
+    function addComment(event, index) {
+      event.preventDefault();
+      const commentInput = document.getElementById(comment-input-${index});
+      const commentText = commentInput.value;
+
+      blogs[index].comments.push(commentText);
+      displayBlogs();
+    }
+  </script>
+</body>
+</html>
